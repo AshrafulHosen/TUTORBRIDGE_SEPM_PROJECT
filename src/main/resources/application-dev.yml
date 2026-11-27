@@ -1,0 +1,17 @@
+# Local development-only configuration. Never use these values in production.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tutorbridge
+    username: tutorbridge
+    password: tutorbridge-dev-only
+
+app:
+  jwt:
+    secret: dev-only-jwt-secret-key-must-be-at-least-32-bytes-long
+  admin:
+    email: admin@tutorbridge.local
+    password: DevAdmin123
+
+logging:
+  level:
+    com.tutorbridge: DEBUG
