@@ -1,0 +1,23 @@
+# TutorBridge Code Owners
+# Update @member2 and @member3 with collaborator GitHub usernames once added to the repository.
+
+# Team Lead (Developer A): project setup, config, CI/CD, Docker
+/pom.xml @AshrafulHosen
+/src/main/java/com/tutorbridge/config/ @AshrafulHosen
+/src/main/java/com/tutorbridge/common/ @AshrafulHosen
+/.github/ @AshrafulHosen
+/Dockerfile @AshrafulHosen
+/docker-compose.yml @AshrafulHosen
+
+# Member 2 (Developer B): domain model, profiles, catalog, posts, matching
+/src/main/java/com/tutorbridge/user/ @member2
+/src/main/java/com/tutorbridge/catalog/ @member2
+/src/main/java/com/tutorbridge/tuition/ @member2
+/src/main/java/com/tutorbridge/matching/ @member2
+
+# Member 3 (Developer C): applications, demos, reviews, notifications, admin
+/src/main/java/com/tutorbridge/application/ @member3
+/src/main/java/com/tutorbridge/demo/ @member3
+/src/main/java/com/tutorbridge/review/ @member3
+/src/main/java/com/tutorbridge/notification/ @member3
+/src/main/java/com/tutorbridge/admin/ @member3
