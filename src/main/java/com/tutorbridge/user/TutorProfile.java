@@ -1,5 +1,7 @@
 package com.tutorbridge.user;
 
+import com.tutorbridge.catalog.Area;
+import com.tutorbridge.catalog.Subject;
 import com.tutorbridge.common.BaseEntity;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -7,6 +9,8 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
@@ -16,7 +20,9 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * A tutor's tuition profile (1:1 with {@link User}).
+ * A tutor's tuition profile (1:1 with {@link User}). Subjects and preferred areas are real
+ * many-to-many relationships to the catalog lookup tables; class levels and mediums stay simple
+ * string collections.
  */
 @Entity
 @Table(name = "tutor_profiles")
@@ -47,6 +53,18 @@ public class TutorProfile extends BaseEntity {
     @Column(name = "rating_count", nullable = false)
     private int ratingCount;
 
+    @ManyToMany
+    @JoinTable(name = "tutor_subjects",
+            joinColumns = @JoinColumn(name = "tutor_profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private Set<Subject> subjects = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "tutor_areas",
+            joinColumns = @JoinColumn(name = "tutor_profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "area_id"))
+    private Set<Area> preferredAreas = new HashSet<>();
+
     @ElementCollection
     @CollectionTable(name = "tutor_class_levels", joinColumns = @JoinColumn(name = "tutor_profile_id"))
     @Column(name = "class_level", nullable = false, length = 30)
@@ -69,6 +87,16 @@ public class TutorProfile extends BaseEntity {
         this.bio = bio;
         this.salaryMin = salaryMin;
         this.salaryMax = salaryMax;
+    }
+
+    public void replaceSubjects(Collection<Subject> values) {
+        subjects.clear();
+        subjects.addAll(values);
+    }
+
+    public void replacePreferredAreas(Collection<Area> values) {
+        preferredAreas.clear();
+        preferredAreas.addAll(values);
     }
 
     public void replaceClassLevels(Collection<String> levels) {
@@ -115,6 +143,14 @@ public class TutorProfile extends BaseEntity {
 
     public int getRatingCount() {
         return ratingCount;
+    }
+
+    public Set<Subject> getSubjects() {
+        return Collections.unmodifiableSet(subjects);
+    }
+
+    public Set<Area> getPreferredAreas() {
+        return Collections.unmodifiableSet(preferredAreas);
     }
 
     public Set<String> getClassLevels() {
