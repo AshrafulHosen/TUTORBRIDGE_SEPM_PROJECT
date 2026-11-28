@@ -1,5 +1,7 @@
 package com.tutorbridge.application;
 
+import com.tutorbridge.application.state.ApplicationState;
+import com.tutorbridge.application.state.ApplicationStateFactory;
 import com.tutorbridge.common.BaseEntity;
 import com.tutorbridge.tuition.TuitionPost;
 import com.tutorbridge.user.User;
@@ -54,6 +56,11 @@ public class Application extends BaseEntity {
     /** Updates the application status; called by State implementations. */
     public void transitionTo(ApplicationStatus next) {
         this.status = next;
+    }
+
+    /** Returns the behavior object for the application's current lifecycle status. */
+    public ApplicationState state() {
+        return ApplicationStateFactory.from(status);
     }
 
     public TuitionPost getPost() {
